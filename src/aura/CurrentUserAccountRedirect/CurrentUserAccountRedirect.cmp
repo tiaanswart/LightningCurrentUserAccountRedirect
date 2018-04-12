@@ -12,6 +12,10 @@
     <aura:handler name="change" value="{!v.recordId}" action="{!c.getRecord}" />
 
     <aura:attribute type="String" required="true" name="redirectIdFieldName" default="Contact.AccountId"/>
+    <aura:attribute type="String[]" required="true" name="recordFieldNames" default="Id, Contact.AccountId" access="private"/>
+    <aura:attribute type="Boolean" required="true" name="loadRecordView" default="false"/>
+    <aura:attribute type="Boolean" required="true" name="showRecordView" default="false" access="private"/>
+    <aura:attribute type="Id" name="recordViewId" access="private"/>
 
     <!-- Attributes used by Record Data -->
     <aura:attribute name="recordId" type="Id" />
@@ -21,11 +25,17 @@
 
     <!-- Record Data - used to query the user record -->
     <force:recordData aura:id="recordLoader"
-                      fields="{!v.redirectIdFieldName}"
+                      fields="{!v.recordFieldNames}"
                       targetRecord="{!v.record}"
                       targetFields="{!v.simpleRecord}"
                       targetError="{!v.recordError}"
                       recordUpdated="{!c.handleRecordUpdated}"
                       mode="VIEW"/>
 
+    <!-- Record View - used to display the record -->
+    <aura:renderIf isTrue="{!v.loadRecordView}">
+        <aura:if isTrue="{!v.showRecordView}">
+            <force:recordView recordId="{!v.recordViewId}" type="FULL"/>
+        </aura:if>
+    </aura:renderIf>
 </aura:component>

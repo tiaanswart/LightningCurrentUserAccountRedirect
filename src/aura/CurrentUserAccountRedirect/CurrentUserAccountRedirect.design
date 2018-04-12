@@ -9,4 +9,6 @@
 <design:component >
     <design:attribute name="redirectIdFieldName" label="Redirect Id Field Name"
                       description="This is a Field on the User object that will be retrieved to redirect to." />
+    <design:attribute name="loadRecordView" label="Disable redirect"
+                      description="Disabeling the redirect will show the record view" />
 </design:component>

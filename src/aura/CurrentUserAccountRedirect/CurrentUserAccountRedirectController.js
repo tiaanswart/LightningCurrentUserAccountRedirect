@@ -18,6 +18,19 @@
             // If we have a UserId
             if (recordId) {
 
+                // Get the User Redirect Field Name
+                var redirectIdFieldName = component.get('v.redirectIdFieldName');
+
+                // If this is not the default
+                if (redirectIdFieldName != 'Contact.AccountId') {
+
+                    // Add it to the list of field names
+                    var arrayOfFieldNames = component.get('v.recordFieldNames');
+                    arrayOfFieldNames.push(redirectIdFieldName);
+                    component.set('v.recordFieldNames', arrayOfFieldNames);
+
+                }
+
                 // Set the record Id
                 component.set('v.recordId', recordId);
             }
@@ -66,13 +79,27 @@
                 // If we have an Account Id
                 if (redirectId) {
 
-                    // Navigate to the Account
-                    var navEvt = $A.get('e.force:navigateToSObject');
-                    navEvt.setParams({
-                        'isredirect': true,
-                        'recordId': redirectId
-                    });
-                    navEvt.fire();
+                    var loadRecordView = component.get('v.loadRecordView');
+
+                    // If we have to redirect
+                    if (!loadRecordView) {
+
+                        // Navigate to the Account
+                        var navEvt = $A.get('e.force:navigateToSObject');
+                        navEvt.setParams({
+                            'isredirect': true,
+                            'recordId': redirectId
+                        });
+                        navEvt.fire();
+
+                    } else {
+
+                        // Set record id
+                        component.set('v.recordViewId', redirectId);
+
+                        // Show record view
+                        component.set('v.showRecordView', true);
+                    }
 
                 } else {
 
