@@ -10,80 +10,89 @@
 
     doInit: function (component, event, helper) {
 
-        // Get the UserId
-        var recordId = $A.get('$SObjectType.CurrentUser.Id');
+        if (!helper.getIsSitePreview()) {
 
-        // If we have a UserId
-        if (recordId) {
+            // Get the UserId
+            var recordId = $A.get('$SObjectType.CurrentUser.Id');
 
-            // Set the record Id
-            component.set('v.recordId', recordId);
+            // If we have a UserId
+            if (recordId) {
+
+                // Set the record Id
+                component.set('v.recordId', recordId);
+            }
+
         }
 
     },
 
     getRecord : function(component) {
 
-        // Get the Record Id
-        var recordId = component.get('v.recordId');
+        if (!helper.getIsSitePreview()) {
 
-        if (recordId) {
+            // Get the Record Id
+            var recordId = component.get('v.recordId');
 
-            // Find the record cmp
-            var recordLoader = component.find('recordLoader');
+            if (recordId) {
 
-            // Set the record id
-            recordLoader.set('v.recordId', recordId);
+                // Find the record cmp
+                var recordLoader = component.find('recordLoader');
 
-            // Reload the record
-            recordLoader.reloadRecord();
+                // Set the record id
+                recordLoader.set('v.recordId', recordId);
+
+                // Reload the record
+                recordLoader.reloadRecord();
+            }
+
         }
     },
 
     handleRecordUpdated: function (component, event, helper) {
 
-        // Get the event that started this
-        var eventParams = event.getParams();
+        if (!helper.getIsSitePreview()) {
 
-        if (eventParams.changeType === "LOADED") {
+            // Get the event that started this
+            var eventParams = event.getParams();
 
-            // Get the User Redirect Field Name
-            var redirectIdFieldName = component.get('v.redirectIdFieldName');
+            if (eventParams.changeType === "LOADED") {
 
-            // Get the User Redirect Field Name
-            var redirectId = component.get('v.simpleRecord.'+redirectIdFieldName);
+                // Get the User Redirect Field Name
+                var redirectIdFieldName = component.get('v.redirectIdFieldName');
 
-            // If we have an Account Id
-            if (redirectId) {
+                // Get the User Redirect Field Name
+                var redirectId = component.get('v.simpleRecord.' + redirectIdFieldName);
 
-                if (!helper.getIsSitePreview()) {
+                // If we have an Account Id
+                if (redirectId) {
 
                     // Navigate to the Account
                     var navEvt = $A.get('e.force:navigateToSObject');
                     navEvt.setParams({
-                        'isredirect' : true,
-                        'recordId'   : redirectId
+                        'isredirect': true,
+                        'recordId': redirectId
                     });
                     navEvt.fire();
+
+                } else {
+
+                    // Show error
+                    var toastEvent = $A.get("e.force:showToast");
+                    toastEvent.setParams({
+                        'type': 'error',
+                        'title': 'Error',
+                        'message': redirectIdFieldName + ' not found!'
+                    });
+                    toastEvent.fire();
                 }
 
-            } else {
+            } else if (eventParams.changeType === "ERROR") {
 
-                // Show error
-                var toastEvent = $A.get("e.force:showToast");
-                toastEvent.setParams({
-                    'type'      : 'error',
-                    'title'     : 'Error',
-                    'message'   : redirectIdFieldName+' not found!'
-                });
-                toastEvent.fire();
+                // Get the Error
+                var recordError = component.get('v.recordError');
+                console.log('recordError', recordError);
+
             }
-
-        } else if (eventParams.changeType === "ERROR") {
-
-            // Get the Error
-            var recordError = component.get('v.recordError');
-            console.log('recordError',recordError);
 
         }
 
