@@ -56,13 +56,16 @@
             // If we have an Account Id
             if (redirectId) {
 
-                // Navigate to the Account
-                var navEvt = $A.get('e.force:navigateToSObject');
-                navEvt.setParams({
-                    'isredirect' : true,
-                    'recordId'   : redirectId
-                });
-                navEvt.fire();
+                if (!helper.getIsSitePreview()) {
+
+                    // Navigate to the Account
+                    var navEvt = $A.get('e.force:navigateToSObject');
+                    navEvt.setParams({
+                        'isredirect' : true,
+                        'recordId'   : redirectId
+                    });
+                    navEvt.fire();
+                }
 
             } else {
 
