@@ -6,7 +6,7 @@
 - CHANGE LOG
 - 2018-04-06 - Initial setup
 -->
-<aura:component description="CurrentUserAccountRedirect" access="global" implements="flexipage:availableForAllPageTypes">
+<aura:component description="CurrentUserAccountRedirect" access="global" implements="forceCommunity:availableForAllPageTypes">
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.recordId}" action="{!c.getRecord}" />
