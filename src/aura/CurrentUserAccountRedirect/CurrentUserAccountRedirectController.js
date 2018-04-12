@@ -26,7 +26,7 @@
 
     },
 
-    getRecord : function(component) {
+    getRecord : function(component, event, helper) {
 
         if (!helper.getIsSitePreview()) {
 
