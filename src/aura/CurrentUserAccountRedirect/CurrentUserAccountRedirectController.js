@@ -47,19 +47,20 @@
 
         if (eventParams.changeType === "LOADED") {
 
-            console.log("Record is loaded successfully.");
+            // Get the User Redirect Field Name
+            var redirectIdFieldName = component.get('v.redirectIdFieldName');
 
-            // Get the Contact Account Id
-            var contactAccountId = component.get('v.simpleRecord.Contact.AccountId');
+            // Get the User Redirect Field Name
+            var redirectId = component.get('v.simpleRecord.'+redirectIdFieldName);
 
             // If we have an Account Id
-            if (contactAccountId) {
+            if (redirectId) {
 
                 // Navigate to the Account
                 var navEvt = $A.get('e.force:navigateToSObject');
                 navEvt.setParams({
                     'isredirect' : true,
-                    'recordId'   : contactAccountId
+                    'recordId'   : redirectId
                 });
                 navEvt.fire();
 
@@ -70,7 +71,7 @@
                 toastEvent.setParams({
                     'type'      : 'error',
                     'title'     : 'Error',
-                    'message'   : 'Contact Account Id not found!'
+                    'message'   : redirectIdFieldName+' not found!'
                 });
                 toastEvent.fire();
             }

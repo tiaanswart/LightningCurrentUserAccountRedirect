@@ -1,0 +1,12 @@
+<!--
+- @author Tiaan Swart (tiaan@cloudinit.nz)
+- @date 2018-04-13
+- @description 
+-
+- CHANGE LOG
+- 2018-04-13 - Initial setup
+-->
+<design:component >
+    <design:attribute name="redirectIdFieldName" label="Redirect Id Field Name"
+                      description="This is a Field on the User object that will be retrieved to redirect to." />
+</design:component>
