@@ -16,6 +16,7 @@
     <aura:attribute type="String[]" required="true" name="recordFieldNames" default="Id, Contact.AccountId" access="private"/>
     <aura:attribute type="Boolean" required="true" name="loadRecordView" default="false"/>
     <aura:attribute type="Boolean" required="true" name="showRecordView" default="false" access="private"/>
+    <aura:attribute type="Boolean" required="true" name="showRecordEdit" default="false" access="private"/>
     <aura:attribute type="Id" name="recordViewId" access="private"/>
 
     <!-- Attributes used by Record Data -->
@@ -36,7 +37,25 @@
     <!-- Record View - used to display the record -->
     <aura:renderIf isTrue="{!v.loadRecordView}">
         <aura:if isTrue="{!v.showRecordView}">
-            <force:recordView recordId="{!v.recordViewId}" type="FULL"/>
+            <lightning:card>
+                <aura:set attribute="actions">
+                    <aura:if isTrue="{!not(v.showRecordEdit)}">
+                        <lightning:button label="Edit" onclick="{!c.editRecord}"/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.showRecordEdit}">
+                        <lightning:button label="Save" onclick="{!c.saveRecord}"/>
+                        <lightning:button label="Cancel" onclick="{!c.cancelEditRecord}"/>
+                    </aura:if>
+                </aura:set>
+                <p class="slds-p-horizontal_small">
+                    <aura:if isTrue="{!not(v.showRecordEdit)}">
+                        <force:recordView aura:id="recordView" recordId="{!v.recordViewId}" type="FULL"/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.showRecordEdit}">
+                        <force:recordEdit aura:id="recordEdit" recordId="{!v.recordViewId}"/>
+                    </aura:if>
+                </p>
+            </lightning:card>
         </aura:if>
     </aura:renderIf>
 </aura:component>

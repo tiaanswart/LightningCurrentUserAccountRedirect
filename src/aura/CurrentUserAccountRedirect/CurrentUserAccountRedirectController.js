@@ -99,6 +99,9 @@
 
                         // Show record view
                         component.set('v.showRecordView', true);
+
+                        // Hide record edit
+                        component.set('v.showRecordEdit', false);
                     }
 
                 } else {
@@ -117,12 +120,32 @@
 
                 // Get the Error
                 var recordError = component.get('v.recordError');
-                console.log('recordError', recordError);
 
             }
 
         }
 
+    },
+
+    editRecord: function (component, event, helper) {
+
+        // Show record edit
+        component.set('v.showRecordEdit', true);
+    },
+
+    cancelEditRecord: function (component, event, helper) {
+
+        // Hide record edit
+        component.set('v.showRecordEdit', false);
+    },
+
+    saveRecord: function (component, event, helper) {
+
+        // Save the record
+        component.find("recordEdit").get("e.recordSave").fire();
+
+        // Hide record edit
+        component.set('v.showRecordEdit', false);
     }
 
 })
