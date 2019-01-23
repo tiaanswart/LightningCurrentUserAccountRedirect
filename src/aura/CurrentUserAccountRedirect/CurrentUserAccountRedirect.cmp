@@ -36,17 +36,15 @@
     
     <!-- Record Error - used to display the record errors -->
     <aura:renderIf isTrue="{!not(empty(v.recordError))}">
-        <lightning:card>
-            <p class="slds-p-horizontal_small">
-              <div class="slds-notify_container slds-is-relative">
-                <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
-                  <div class="slds-notify__content">
-                    <h2 class="slds-text-heading_small ">{!v.recordError}</h2>
-                  </div>
-                </div>
-              </div>
-            </p>
-        </lightning:card>
+      <p class="slds-p-horizontal_small">
+        <div class="slds-notify_container slds-is-relative">
+          <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
+            <div class="slds-notify__content">
+              <h2 class="slds-text-heading_small ">{!v.recordError}</h2>
+            </div>
+          </div>
+        </div>
+      </p>
     </aura:renderIf>
 
     <!-- Record View - used to display the record -->
